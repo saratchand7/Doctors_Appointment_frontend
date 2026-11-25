@@ -1,0 +1,269 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "System Admin",
+      "email": "admin@medicare.com",
+      "password": "admin123",
+      "role": "admin",
+      "image": "/images/admin.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Dr. Rahul Sharma",
+      "email": "rahul@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "1",
+      "image": "/images/doctor1.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Demo Patient",
+      "email": "patient@medicare.com",
+      "password": "patient123",
+      "phone": "9876543210",
+      "role": "patient",
+      "image": "/images/patient.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Dr. Priya Reddy",
+      "email": "priya@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "2",
+      "image": "/images/doctor2.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Dr. Arjun Kumar",
+      "email": "arjun@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "3",
+      "image": "/images/doctor3.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Dr. Sneha Patel",
+      "email": "sneha@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "4",
+      "image": "/images/doctor4.jpg"
+    },
+    {
+      "id": "7",
+      "name": "Dr. Vikram Singh",
+      "email": "vikram@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "5",
+      "image": "/images/doctor5.jpg"
+    },
+    {
+      "id": "8",
+      "name": "Dr. Ananya Rao",
+      "email": "ananya@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "6",
+      "image": "/images/doctor6.jpg"
+    },
+    {
+      "id": "9",
+      "name": "Dr. Karthik Reddy",
+      "email": "karthik@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "7",
+      "image": "/images/doctor7.jpg"
+    },
+    {
+      "id": "10",
+      "name": "Dr. Meera Nair",
+      "email": "meera@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "8",
+      "image": "/images/doctor8.jpg"
+    },
+    {
+      "id": "11",
+      "name": "Dr. Aditya Verma",
+      "email": "aditya@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "9",
+      "image": "/images/doctor9.jpg"
+    },
+    {
+      "id": "12",
+      "name": "Dr. Kavya Menon",
+      "email": "kavya@medicare.com",
+      "password": "doctor123",
+      "role": "doctor",
+      "doctorId": "10",
+      "image": "/images/doctor10.jpg"
+    },
+    {
+      "name": "sarat",
+      "email": "sarat@medicare.com",
+      "phone": "9346153554",
+      "password": "Sarat@123",
+      "role": "patient",
+      "image": "data:image/jpeg;base64,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",
+      "id": "yWaA-VQP-iQ"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "1",
+      "name": "Dr. Rahul Sharma",
+      "specialization": "Cardiologist",
+      "experience": 12,
+      "hospital": "Apollo Hospitals",
+      "location": "Visakhapatnam",
+      "fee": 800,
+      "rating": 4.8,
+      "availability": true,
+      "image": "/images/doctor1.jpg",
+      "description": "Experienced cardiologist specializing in heart health, blood pressure management and cardiovascular diseases."
+    },
+    {
+      "id": "2",
+      "name": "Dr. Priya Reddy",
+      "specialization": "Dermatologist",
+      "experience": 8,
+      "hospital": "CARE Hospitals",
+      "location": "Hyderabad",
+      "fee": 600,
+      "rating": 4.9,
+      "availability": true,
+      "image": "/images/doctor2.jpg",
+      "description": "Specialist in skin, hair, and nail care, including acne treatment and skin allergies."
+    },
+    {
+      "id": "3",
+      "name": "Dr. Arjun Kumar",
+      "specialization": "Neurologist",
+      "experience": 15,
+      "hospital": "KIMS Hospitals",
+      "location": "Vijayawada",
+      "fee": 1000,
+      "rating": 4.7,
+      "availability": false,
+      "image": "/images/doctor3.jpg",
+      "description": "Specialist in neurological disorders, migraines, epilepsy and nervous system conditions."
+    },
+    {
+      "id": "4",
+      "name": "Dr. Sneha Patel",
+      "specialization": "Pediatrician",
+      "experience": 7,
+      "hospital": "Rainbow Hospitals",
+      "location": "Visakhapatnam",
+      "fee": 500,
+      "rating": 4.6,
+      "availability": true,
+      "image": "/images/doctor4.jpg",
+      "description": "Dedicated to children's health, vaccinations, growth monitoring and pediatric care."
+    },
+    {
+      "id": "5",
+      "name": "Dr. Vikram Singh",
+      "specialization": "Orthopedic",
+      "experience": 10,
+      "hospital": "Medicover Hospitals",
+      "location": "Hyderabad",
+      "fee": 700,
+      "rating": 4.5,
+      "availability": true,
+      "image": "/images/doctor5.jpg",
+      "description": "Specialist in bone and joint conditions, fractures, arthritis and sports injuries."
+    },
+    {
+      "id": "6",
+      "name": "Dr. Ananya Rao",
+      "specialization": "Gynecologist",
+      "experience": 11,
+      "hospital": "Rainbow Hospitals",
+      "location": "Visakhapatnam",
+      "fee": 750,
+      "rating": 4.9,
+      "availability": true,
+      "image": "/images/doctor6.jpg",
+      "description": "Experienced women's healthcare specialist providing reproductive health and maternity care."
+    },
+    {
+      "id": "7",
+      "name": "Dr. Karthik Reddy",
+      "specialization": "General Physician",
+      "experience": 9,
+      "hospital": "Apollo Hospitals",
+      "location": "Vijayawada",
+      "fee": 450,
+      "rating": 4.4,
+      "availability": true,
+      "image": "/images/doctor7.jpg",
+      "description": "Provides general healthcare, routine health checkups and treatment for common illnesses."
+    },
+    {
+      "id": "8",
+      "name": "Dr. Meera Nair",
+      "specialization": "ENT Specialist",
+      "experience": 13,
+      "hospital": "KIMS Hospitals",
+      "location": "Hyderabad",
+      "fee": 650,
+      "rating": 4.7,
+      "availability": false,
+      "image": "/images/doctor8.jpg",
+      "description": "Specialist in ear, nose and throat conditions, sinus problems and hearing disorders."
+    },
+    {
+      "id": "9",
+      "name": "Dr. Aditya Verma",
+      "specialization": "Psychiatrist",
+      "experience": 14,
+      "hospital": "CARE Hospitals",
+      "location": "Visakhapatnam",
+      "fee": 900,
+      "rating": 4.8,
+      "availability": true,
+      "image": "/images/doctor9.jpg",
+      "description": "Specialist in mental health, anxiety, depression and emotional wellness."
+    },
+    {
+      "id": "10",
+      "name": "Dr. Kavya Menon",
+      "specialization": "Ophthalmologist",
+      "experience": 6,
+      "hospital": "Medicover Hospitals",
+      "location": "Vijayawada",
+      "fee": 550,
+      "rating": 4.6,
+      "availability": true,
+      "image": "/images/doctor10.jpg",
+      "description": "Specialist in eye care, vision problems, eye examinations and ocular health."
+    }
+  ],
+  "appointments": [
+    {
+      "patientName": "sarat",
+      "email": "sarat@medicare.com",
+      "phone": "8974568798",
+      "date": "2026-11-24",
+      "time": "14:28",
+      "reason": "hi",
+      "patientId": "yWaA-VQP-iQ",
+      "doctorId": "1",
+      "doctorName": "Dr. Rahul Sharma",
+      "status": "Confirmed",
+      "createdAt": "2026-11-24T08:58:49.715Z",
+      "id": "If-U8fnR9EU"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
