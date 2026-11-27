@@ -21,25 +21,76 @@ import MyAppointments from "../pages/MyAppointments";
 import ProtectedRoute from "./ProtectedRoute";
 import { useAuth } from "../context/AuthContext";
 
+function HomeRouter() {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Home />;
+}
+
+function LoginRouter() {
+  const { user } = useAuth();
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <Login />;
+}
+
 function DashboardRouter() {
   const { user } = useAuth();
 
-  if (user.role === "admin") return <AdminDashboard />;
-  if (user.role === "doctor") return <DoctorDashboard />;
-  if (user.role === "patient") return <PatientDashboard />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-  return <Navigate to="/" replace />;
+  switch (user.role) {
+    case "admin":
+      return <AdminDashboard />;
+
+    case "doctor":
+      return <DoctorDashboard />;
+
+    case "patient":
+      return <PatientDashboard />;
+
+    default:
+      return <div>Invalid user role.</div>;
+  }
 }
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/doctors" element={<Doctors />} />
-      <Route path="/doctors/:id" element={<DoctorDetails />} />
+      <Route path="/" element={<HomeRouter />} />
 
-      <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<HomeRouter />} />
+
+      <Route path="/login" element={<LoginRouter />} />
+
       <Route path="/register" element={<Register />} />
+
+      <Route
+        path="/doctors"
+        element={
+          <ProtectedRoute>
+            <Doctors />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/doctors/:id"
+        element={
+          <ProtectedRoute>
+            <DoctorDetails />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/dashboard"
@@ -101,6 +152,7 @@ function AppRoutes() {
           <div className="empty-state">
             <h1>404 - Page Not Found</h1>
             <p>The requested page does not exist.</p>
+
             <Link className="primary-btn" to="/">
               Back to Home
             </Link>

@@ -1,55 +1,58 @@
 
-import {
-  createContext,
-  useContext,
-  useState
-} from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext(null);
 
-function readUser() {
-  try {
-    const user = JSON.parse(localStorage.getItem("user"));
-    return user && user.id && user.role ? user : null;
-  } catch {
-    return null;
-  }
-}
-
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(readUser);
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("user")) || null;
+    } catch {
+      return null;
+    }
+  });
 
-  function login(userData) {
-    const session = {
-      id: userData.id,
-      name: userData.name,
-      email: userData.email,
-      role: userData.role,
-      doctorId: userData.doctorId || null
+  function login(account) {
+    const loggedInUser = {
+      id: account.id,
+      name: account.name,
+      email: account.email,
+      role: account.role,
+      doctorId: account.doctorId ?? null
     };
 
-    localStorage.setItem("user", JSON.stringify(session));
-    setUser(session);
+    localStorage.removeItem("user");
+
+    sessionStorage.setItem(
+      "user",
+      JSON.stringify(loggedInUser)
+    );
+
+    setUser(loggedInUser);
   }
 
   function logout() {
     localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        isAuthenticated: !!user
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
-  }
-
-  return context;
+  return useContext(AuthContext);
 }
+
+export default AuthProvider;

@@ -3,11 +3,34 @@ import { useState, useEffect } from "react";
 import { Box, Avatar, Typography } from "@mui/material";
 
 function DoctorImage({ doctor }) {
+  const baseUrl = import.meta.env.BASE_URL;
+
+  const localImage = `${baseUrl}images/doctor${doctor.id}.jpg`;
+
+  const image = doctor.image?.trim() || "";
+
+  const imageUrl = image
+    ? /^(https?:|data:|blob:)/i.test(image)
+      ? image
+      : `${baseUrl}${image.replace(/^\/+/, "")}`
+    : localImage;
+
+  const [src, setSrc] = useState(imageUrl);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
+    setSrc(imageUrl);
     setFailed(false);
-  }, [doctor.image]);
+  }, [imageUrl, localImage]);
+
+  function handleImageError() {
+    if (src !== localImage) {
+      setSrc(localImage);
+    } else {
+      setFailed(true);
+      console.error("Doctor image not found:", localImage);
+    }
+  }
 
   const initials = (doctor.name || "Doctor")
     .replace(/^Dr\.\s*/i, "")
@@ -18,7 +41,7 @@ function DoctorImage({ doctor }) {
     .join("")
     .toUpperCase();
 
-  if (failed || !doctor.image) {
+  if (failed) {
     return (
       <Box
         sx={{
@@ -57,10 +80,10 @@ function DoctorImage({ doctor }) {
   return (
     <Box
       component="img"
-      src={doctor.image}
+      src={src}
       alt={doctor.name}
       loading="lazy"
-      onError={() => setFailed(true)}
+      onError={handleImageError}
       sx={{
         width: "100%",
         height: 250,
