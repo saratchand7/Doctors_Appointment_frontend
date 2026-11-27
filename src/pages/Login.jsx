@@ -3,66 +3,60 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
-
 import { toast } from "react-toastify";
-import { motion } from "motion/react";
 
 import {
   Box,
-  Card,
+  Paper,
   Typography,
   TextField,
   Button,
   InputAdornment,
   IconButton,
-  CircularProgress
+  CircularProgress,
+  Divider
 } from "@mui/material";
 
 import {
   HeartPulse,
   Mail,
-  LockKeyhole,
+  Lock,
   Eye,
   EyeOff,
-  LogIn
+  LogIn,
+  ShieldCheck,
+  Stethoscope
 } from "lucide-react";
 
 function Login() {
-  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
 
-  const [form, setForm] = useState({
-    email: "",
-    password: ""
-  });
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  function handleChange(e) {
-    setForm((previous) => ({
-      ...previous,
-      [e.target.name]: e.target.value
-    }));
-  }
-
-  async function handleSubmit(e) {
+  async function handleLogin(e) {
     e.preventDefault();
 
-    if (loading) return;
-
-    setLoading(true);
+    if (!email.trim() || !password) {
+      toast.warning("Please enter email and password.");
+      return;
+    }
 
     try {
+      setLoading(true);
+
       const response = await api.get("/users", {
         params: {
-          email: form.email.trim().toLowerCase()
+          email: email.trim().toLowerCase()
         }
       });
 
       const account = response.data.find(
-        (item) => item.password === form.password
+        (user) => user.password === password
       );
 
       if (!account) {
@@ -78,8 +72,10 @@ function Login() {
         location.state?.from?.pathname || "/dashboard",
         { replace: true }
       );
-    } catch {
-      toast.error("Unable to login. Check JSON Server.");
+
+    } catch (error) {
+      toast.error("Unable to login. Please try again.");
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -89,69 +85,72 @@ function Login() {
     <Box
       sx={{
         minHeight: "85vh",
-        display: "grid",
-        placeItems: "center",
-        p: 3
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "linear-gradient(135deg, #e0f2fe, #f0fdfa)",
+        py: 5,
+        px: 2
       }}
     >
-      <Card
-        component={motion.div}
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+      <Paper
+        elevation={4}
         sx={{
           width: "100%",
-          maxWidth: 450,
-          p: { xs: 3, sm: 5 }
+          maxWidth: 480,
+          p: { xs: 3, sm: 4 },
+          borderRadius: 4
         }}
       >
-        <Box sx={{ textAlign: "center", mb: 4 }}>
+        <Box sx={{ textAlign: "center", mb: 3 }}>
           <Box
             sx={{
-              bgcolor: "#e0f2fe",
-              color: "#176bba",
-              width: 75,
-              height: 75,
-              borderRadius: 4,
-              display: "grid",
-              placeItems: "center",
+              width: 65,
+              height: 65,
               mx: "auto",
-              mb: 2
+              mb: 2,
+              borderRadius: 3,
+              background: "linear-gradient(135deg,#176bba,#0891b2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white"
             }}
           >
-            <HeartPulse size={40} />
+            <HeartPulse size={35} />
           </Box>
 
-          <Typography variant="h4" fontWeight={800}>
+          <Typography
+            variant="h4"
+            fontWeight={800}
+            color="primary"
+          >
             Welcome Back
           </Typography>
 
-          <Typography color="text.secondary" mt={1}>
-            Sign in to your MediCare account.
+          <Typography
+            color="text.secondary"
+            sx={{ mt: 1 }}
+          >
+            Sign in to your MediCare account
           </Typography>
         </Box>
 
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3
-          }}
-        >
+        <Box component="form" onSubmit={handleLogin}>
           <TextField
+            fullWidth
+            required
             label="Email Address"
             type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
+            value={email}
             autoComplete="email"
-            required
+            onChange={(e) => setEmail(e.target.value)}
+            margin="normal"
             slotProps={{
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Mail size={19} />
+                    <Mail size={20} color="#176bba" />
                   </InputAdornment>
                 )
               }
@@ -159,29 +158,39 @@ function Login() {
           />
 
           <TextField
+            fullWidth
+            required
             label="Password"
             type={showPassword ? "text" : "password"}
-            name="password"
-            value={form.password}
-            onChange={handleChange}
+            value={password}
             autoComplete="current-password"
-            required
+            onChange={(e) => setPassword(e.target.value)}
+            margin="normal"
             slotProps={{
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LockKeyhole size={19} />
+                    <Lock size={20} color="#176bba" />
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
+                      type="button"
+                      aria-label={
+                        showPassword
+                          ? "Hide password"
+                          : "Show password"
+                      }
+                      onClick={() =>
+                        setShowPassword(!showPassword)
+                      }
                     >
-                      {showPassword
-                        ? <EyeOff size={19} />
-                        : <Eye size={19} />}
+                      {showPassword ? (
+                        <EyeOff size={20} />
+                      ) : (
+                        <Eye size={20} />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 )
@@ -191,24 +200,132 @@ function Login() {
 
           <Button
             type="submit"
+            fullWidth
             variant="contained"
-            size="large"
             disabled={loading}
             startIcon={
-              loading
-                ? <CircularProgress size={18} />
-                : <LogIn size={19} />
+              loading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                <LogIn size={20} />
+              )
             }
+            sx={{
+              mt: 3,
+              py: 1.5,
+              borderRadius: 2,
+              fontSize: 16,
+              fontWeight: 700,
+              textTransform: "none"
+            }}
           >
             {loading ? "Signing In..." : "Sign In"}
           </Button>
         </Box>
 
-        <Typography textAlign="center" mt={3} fontSize={14}>
+        <Typography
+          textAlign="center"
+          sx={{ mt: 2 }}
+        >
           Don't have an account?{" "}
-          <Link to="/register">Register</Link>
+          <Link
+            to="/register"
+            style={{
+              color: "#176bba",
+              fontWeight: 600,
+              textDecoration: "none"
+            }}
+          >
+            Register
+          </Link>
         </Typography>
-      </Card>
+
+        <Divider sx={{ my: 3 }}>
+          <Typography
+            fontSize={12}
+            fontWeight={700}
+            color="text.secondary"
+          >
+            DEMO LOGIN CREDENTIALS
+          </Typography>
+        </Divider>
+
+        <Box
+          sx={{
+            bgcolor: "#f0f8fc",
+            border: "1px solid #dbeafe",
+            borderRadius: 2,
+            p: 2,
+            mb: 2
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              mb: 1,
+              color: "#176bba"
+            }}
+          >
+            <ShieldCheck size={20} />
+
+            <Typography fontWeight={800}>
+              Admin Login
+            </Typography>
+          </Box>
+
+          <Typography fontSize={14}>
+            <strong>Email:</strong> admin@medicare.com
+          </Typography>
+
+          <Typography fontSize={14}>
+            <strong>Password:</strong> admin123
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            bgcolor: "#f0fdfa",
+            border: "1px solid #ccfbf1",
+            borderRadius: 2,
+            p: 2
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              mb: 1,
+              color: "#0891b2"
+            }}
+          >
+            <Stethoscope size={20} />
+
+            <Typography fontWeight={800}>
+              Doctor Login
+            </Typography>
+          </Box>
+
+          <Typography fontSize={14}>
+            <strong>Email:</strong> rahul@medicare.com
+          </Typography>
+
+          <Typography fontSize={14}>
+            <strong>Password:</strong> doctor123
+          </Typography>
+        </Box>
+
+        <Typography
+          textAlign="center"
+          color="text.secondary"
+          fontSize={11}
+          sx={{ mt: 2 }}
+        >
+          These credentials are for demonstration purposes only.
+        </Typography>
+      </Paper>
     </Box>
   );
 }
